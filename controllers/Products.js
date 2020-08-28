@@ -64,5 +64,53 @@ module.exports = {
                 })
             }
         })
+    },
+    
+    updateProduct: async (req, res) => {
+        try{
+            const updatedProduct = await Products.findByIdAndUpdate(
+                {_id: req.params.id},
+                {...req.body}
+            )
+            if(updatedProduct){
+                res.status(200).json({
+                    message: "Product Updated!",
+                    updatedProduct
+                })
+            } else {
+                res.status(400).json({
+                    message: "Failed to update product"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Internal Server Error"
+            })
+        }
+    },
+
+    deleteProduct: async (req, res) => {
+        try{
+            const deleteOneProduct = await Products.findOneAndDelete({
+                _id:req.params.id
+            })
+            if(deleteOneProduct){
+                res.status(200).json({
+                    message: "Product Deleted!",
+                })
+            } else {
+                res.status(400).json({
+                    message: "Product is not deleted"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
     }
 }

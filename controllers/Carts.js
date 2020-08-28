@@ -52,28 +52,73 @@ module.exports = {
     },
     makeCart: async(req, res) => {
         try{
-            const {id_user, id_product, quantity, status_cart} = req.body
-            const newCart = await Carts.create({
-                id_user, 
-                id_product, 
-                quantity, 
-                status_cart
+            const addCart = await Carts.create({
+                ...req.body
             })
-            if(newCart){
+            if(addCart){
                 res.status(200).json({
                     message: "Cart Added",
-                    newCart
+                    addCart
                 })
             } else {
                 res.status(400).json({
-                    message: "Failed to Create Cart"
+                    message: "Failed to add cart"
                 })
             }
         }
-        catch(error){
-            console.log(error);
-            res.send({
-                message: "Internal Server Error"
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
+    },
+
+    updateCart: async (req, res) => {
+        try{
+            const updatedCart = await Carts.findOneAndUpdate(
+                {_id: req.params.id},
+                {...req.body}
+            )
+            if(updatedCart){
+                res.status(200).json({
+                    message: "Cart is Updated",
+                    updatedCart
+                })
+            } else {
+                res.status(400).json({
+                    message: "Cart failed to update"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
+    },
+
+    deleteCart: async (req, res) => {
+        try{
+            deletedCart = await Carts.findOneAndDelete({
+                _id: req.params.id
+            })
+            if(deletedCart){
+                res.status(200).json({
+                    message: "Cart Deleted!",
+                    deletedCart
+                })
+            } else {
+                res.status(400).json({
+                    message: "Cannot delete cart"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
             })
         }
     }

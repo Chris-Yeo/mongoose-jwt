@@ -116,5 +116,54 @@ module.exports = {
             })
             
         }
+    },
+
+    updateUser: async (req, res) => {
+        try{
+            const updatedUser = await Users.findOneAndUpdate(
+                {_id: req.params.id},
+                {...req.body}
+            )
+            if(updatedUser){
+                res.status(200).json({
+                    message: "Profile Updated!",
+                    updatedUser
+                })
+            } else {
+                res.status(400).json({
+                    message: "Profile can't be deleted"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
+    },
+
+    deleteUser: async (req, res) => {
+        try{
+            const deleteOneUser = await Users.findOneAndDelete({
+                _id: req.params.id
+            })
+            if(deleteOneUser){
+                res.status(200).json({
+                    message: "User Deleted!",
+                    deleteOneUser
+                })
+            } else {
+                res.status(400).json({
+                    message: "Cannot delete user"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
     }
 }

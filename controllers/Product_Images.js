@@ -1,5 +1,6 @@
 const Product_Images = require('../models/Product_Images')
 const Products = require('../models/Products')
+const { request } = require('express')
 
 module.exports = {
     getAllImages: async(req, res) => {
@@ -74,6 +75,55 @@ module.exports = {
                 status: 500
             })
             
+        }
+    },
+
+    updateImage: async(req, res) => {
+        try{
+            const updatedImage = await Product_Images.findOneAndUpdate(
+                {_id: req.params.id},
+                {...req.body}
+            )
+            if(updatedImage){
+                res.status(200).json({
+                    message: "Image updated!",
+                    updatedImage
+                })
+            } else {
+                res.status(400).json({
+                    message: "Image Updated Failed"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
+        }
+    },
+
+    deleteImage: async(req, res) => {
+        try{
+            const deleteOneImage = await Product_Images.findOneAndDelete(
+                {_id:req.params.id}
+            )
+            if(deleteOneImage){
+                res.status(200).json({
+                    message: "Image Deleted!",
+                    deleteOneImage
+                })
+            } else {
+                res.status(400).json({
+                    message: "Cannot Delete Image"
+                })
+            }
+        }
+        catch(err){
+            console.log(err);
+            res.status(500).json({
+                message: "Invalid Server Error"
+            })
         }
     }
 }
