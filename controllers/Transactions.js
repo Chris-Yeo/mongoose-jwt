@@ -4,7 +4,7 @@ module.exports = {
     getAllTransactions: async (req, res) => {
         try{
             const transactions = await Transactions.find({})
-            .populate({ path: 'id_user', select: 'username fullname phone address'})
+            .populate({ path: 'id_user', select: 'username'})
             .populate({ path: 'id_product', select: 'product_name price'})
             .populate({ path: 'id_cart', select: 'quantity status_cart'})
             if(transactions) {

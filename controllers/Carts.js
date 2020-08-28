@@ -5,8 +5,8 @@ module.exports = {
     getAllCarts: async(req, res) => {
         try{
             const cart = await Carts.find({})
-            .populate({path:'id_user', select: 'username phone address'})
-            .populate({path: 'id_product', select: 'product_name price'})
+            .populate({path:'id_user', select: 'username'})
+            .populate({path: 'id_product', select: 'product_name'})
 
             if(cart){
                 res.send({

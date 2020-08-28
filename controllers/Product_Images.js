@@ -1,5 +1,5 @@
 const Product_Images = require('../models/Product_Images')
-const { populate } = require('../models/Product_Images')
+const Products = require('../models/Products')
 
 module.exports = {
     getAllImages: async(req, res) => {
@@ -49,6 +49,7 @@ module.exports = {
             
         }
     },
+
     addImage: async(req, res) => {
         try {
            
@@ -57,16 +58,14 @@ module.exports = {
                 ...req.body
             })
             const product = await Products.findOneAndUpdate(
-                
                 {_id: req.body.id_product},
                 {$push: {images: newImage._id}},
                 {new: true}
             )
             res.status(200).send({
-                message: 'success',
+                message: 'Image Added',
                 product
             })
-            
         }
         catch(error) {
             console.log(error);
