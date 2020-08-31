@@ -1,6 +1,7 @@
 const express = require('express')
-const route = express.Router();
 const { verifyToken } = require('../helpers/token')
+const route = require('express').Router()
+const { jwtAuth } = require('../helpers/auth')
 
 const {
     getAllUsers,
@@ -15,7 +16,7 @@ route.get('/users', getAllUsers)
 route.get('/users/:id', getOneUser)
 route.post('/users', addUser)
 route.post('/users/login', login)
-route.put('/users/:id', verifyToken, updateUser)
-route.delete('/users/:id', verifyToken, deleteUser)
+route.put('/users/:id', jwtAuth, updateUser)
+route.delete('/users/:id',jwtAuth, deleteUser)
 
 module.exports = route

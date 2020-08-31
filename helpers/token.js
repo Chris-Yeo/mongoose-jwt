@@ -1,12 +1,11 @@
 const jwt = require ('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = {
     //data hanya merupakan alias dari isi createToken
     //... digunakan untuk membaca semua isi object tanpa mengulang isi jika banyak (id, products, dll)
     createToken: (dataUser) => {
-        const token = jwt.sign({...dataUser}, 'jwt-mongoose',{
-            expiresIn:'24h'
-        })
+        const token = jwt.sign({...dataUser}, process.env.SECRET_KEY_TOKEN)
         return token;
     },
 
@@ -19,7 +18,7 @@ module.exports = {
         }
         try {
             const token = bearerToken.split(" ")[1]
-            const decoded = jwt.verify(token, 'jwt-mongoose');
+            const decoded = jwt.verify(token, process.env.SECRET_KEY_TOKEN);
             if(decoded) {
                 next()
             }

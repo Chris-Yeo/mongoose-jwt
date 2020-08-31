@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
-
-const url= "mongodb+srv://root:rootroot@cluster0.wua1m.mongodb.net/test";
+//url mongo atlas
+const url= process.env.DB_URI;
 
 
 mongoose.connect(url, {
@@ -9,6 +10,7 @@ mongoose.connect(url, {
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
 const db = mongoose.connection;
 
 
